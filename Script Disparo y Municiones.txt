@@ -1,0 +1,75 @@
+*** DISPARO ***
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[RequireComponent(typeof(AudioSource))]
+public class Gunfire : MonoBehaviour
+
+{
+    public GameObject Flash;
+
+    
+    void Start()
+    {
+        
+    }
+
+    
+    void Update()
+    {
+
+        if (GlobalAmmo.LoadedAmmo >= 1)
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                AudioSource gunsound = GetComponent<AudioSource>();
+                gunsound.Play();
+                Flash.SetActive(true);
+                StartCoroutine(MuzzleOff());
+                GetComponent<Animation>().Play("Gun_Shot");
+
+                //Quitar balas
+                GlobalAmmo.LoadedAmmo -= 1;
+
+            }
+        }
+    }
+
+
+    public IEnumerator MuzzleOff()
+    {
+        yield return new WaitForSeconds(0.15f);
+        Flash.SetActive(false);
+    }
+
+}
+
+
+*** MUNICIONES ***
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class AmmoPickup : MonoBehaviour
+{
+    public AudioSource AmmoSound;
+
+    
+    void OnTriggerEnter(Collider other)
+    {
+        AmmoSound.Play();
+
+        if (GlobalAmmo.LoadedAmmo == 0)
+        {
+            GlobalAmmo.LoadedAmmo += 20;
+            this.gameObject.SetActive(false);
+        }
+        else
+        {
+            GlobalAmmo.CurrentAmmo += 20;
+            this.gameObject.SetActive(false);
+        }
+    }
+
+}

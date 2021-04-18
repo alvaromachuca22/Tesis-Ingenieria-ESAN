@@ -1,0 +1,103 @@
+*** PREGUNTAS DE OPCIÓN MULTIPLE ***
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+
+public class OPCION : MonoBehaviour
+{
+    public GameObject TextBox;
+    public GameObject Respuesta_Incorrecta;
+    public GameObject Respuesta_Correcta;
+    public GameObject Choice01;
+    public GameObject Choice02;
+    public GameObject Choice03;
+    public GameObject SoundWinner;
+    public GameObject SoundLoose;
+
+    public int choicemode;
+
+    public void ChoiceOption1()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Control");
+        TextBox.SetActive(false);
+        Respuesta_Incorrecta.SetActive(false);
+        Respuesta_Correcta.SetActive(true);
+        SoundWinner.SetActive(true);
+        GameCon.instance4.killCount++;
+        GameCon.instance4.UpdateKillCounterUI2();
+
+        if (player && GameCon.instance4.killCount == 3) 
+        {
+            ultimo.instance5.Panel_Winner();
+        }
+        if (player && GameCon.instance4.killCount < 3)
+        {
+            ultimo.instance5.Panel_Lose();
+        }
+        choicemode = 1;
+    }
+
+    public void ChoiceOption2()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Control");
+        TextBox.SetActive(false);
+        Respuesta_Incorrecta.SetActive(true);
+        Respuesta_Correcta.SetActive(false);
+        SoundLoose.SetActive(true);
+        if (player && GameCon.instance4.killCount < 3 )
+        {
+            ultimo.instance5.Panel_Lose();
+        }
+        choicemode = 2;
+    }
+
+    public void ChoiceOption3()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Control");
+        TextBox.SetActive(false);
+        Respuesta_Incorrecta.SetActive(true);
+        Respuesta_Correcta.SetActive(false);
+        SoundLoose.SetActive(true);
+
+
+        if (player && GameCon.instance4.killCount < 3 ) 
+        {
+            ultimo.instance5.Panel_Lose();
+        }
+
+        choicemode = 3;
+
+    }
+
+    void Update()
+    {
+        if (choicemode >= 1)
+        {
+            Choice01.SetActive(false);
+            Choice02.SetActive(false);
+            Choice03.SetActive(false);
+        }
+    }
+}
+
+
+
+
+*** IDENTIFICADOR ***
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Identificador : MonoBehaviour
+{
+    
+    void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+    void Update()
+    {
+        
+    }
+}

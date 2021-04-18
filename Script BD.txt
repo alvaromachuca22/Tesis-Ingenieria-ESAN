@@ -1,0 +1,179 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using Proyecto26;
+using TMPro;
+
+public class DataBase : MonoBehaviour
+{
+    public GameObject CanvasInicial;
+    public GameObject CanvasFinal;
+    public GameObject NoMusic1;
+
+    public GameObject mensaje;
+    public GameObject MensajeRegistro;
+
+    public InputField textoNombre;
+    public InputField textoApellido;
+    public GameObject Group;
+
+    public static string nombreUser;
+    public static string nombreApellido;
+    public static int GradoUser;
+
+    int Grado;
+    int contador = 1;
+
+    //**** Login ****
+
+    public InputField LoginName;
+    public InputField LoginApellido;
+
+    private string db_Name;
+    private string db_Apellido;
+
+    Usuario user = new Usuario();
+
+    public void ResultadoGrado()
+    {
+        
+        if (Group.GetComponent<ToggleGroup>() != null)
+        {
+            for (int i = 0; i < Group.transform.childCount; i++)
+            {
+                if (Group.transform.GetChild(i).GetComponent<Toggle>().isOn)
+                {
+                
+                    Grado = i + 1;
+                    break;
+                }
+            }
+
+        }
+
+    }
+
+    IEnumerator DesaparecerMensaje()
+    {  
+            yield return new WaitForSeconds(2);
+            MensajeRegistro.SetActive(false);
+    }
+
+
+    IEnumerator DesaparecerMensajeLogin()
+    {
+        yield return new WaitForSeconds(4);
+        mensaje.SetActive(false);
+    }
+
+    public void ActivarCanvas()
+    {
+        NoMusic1.SetActive(true);
+        CanvasInicial.SetActive(false);
+        CanvasFinal.SetActive(true);
+    }
+
+    public void Enviar ()
+    {
+
+        if (textoNombre.text != "" && textoApellido.text != "")
+        {
+            nombreUser = textoNombre.text;
+            nombreApellido = textoApellido.text;
+
+            ResultadoGrado();
+
+            GradoUser = Grado;
+
+            EnviarPorPost();
+
+            ActivarCanvas();
+
+        }
+
+        if (textoNombre.text == "" || textoApellido.text == "")
+        {
+            MensajeRegistro.SetActive(true);
+            StartCoroutine(DesaparecerMensaje());
+
+        }
+       
+    }
+
+
+    public void RecibirYVerificarData()
+    {
+        RecibirDeBD();
+
+        db_Name = user.NombreUsuario;
+        db_Apellido = user.ApellidoUsuario;
+
+        if (LoginName.text == db_Name && LoginApellido.text == db_Apellido)
+        {
+            switch(user.GradoUsuario)
+            {
+                case 1:
+                    SceneManager.LoadScene(4);
+                    break;
+
+                case 2:
+                    SceneManager.LoadScene(405);
+                    break;
+
+                case 3:
+                    SceneManager.LoadScene(406);
+                    break;
+
+                case 4:
+                    SceneManager.LoadScene(407);
+                    break;
+
+                case 5:
+                    SceneManager.LoadScene(408);
+                    break;
+
+                case 6:
+                    SceneManager.LoadScene(409);
+                    break;
+            }       
+        }
+
+        if ((LoginName.text != null && LoginApellido.text != null))
+        {
+            if ((db_Name == null && db_Apellido == null && contador == 2))
+            {
+                mensaje.SetActive(true);
+                StartCoroutine(DesaparecerMensajeLogin());
+            }
+        } 
+
+        if ((LoginName.text != null && LoginApellido.text != null) && (db_Name != null && db_Apellido != null))
+        {
+            if ((LoginName.text != db_Name && LoginApellido.text == db_Apellido) || (LoginName.text != db_Name && LoginApellido.text == db_Apellido) || (LoginName.text != db_Name && LoginApellido.text != db_Apellido))
+            {
+                mensaje.SetActive(true);
+                StartCoroutine(DesaparecerMensajeLogin());
+            }
+        }
+
+        contador = contador + 1;
+    }
+
+    public void EnviarPorPost()
+    {
+        Usuario usuario = new Usuario();
+        RestClient.Put("https://videojuego-v2.firebaseio.com/" + nombreUser + " " + nombreApellido + ".json", usuario);
+    }
+
+    public void RecibirDeBD()
+    {
+        RestClient.Get<Usuario>("https://videojuego-v2.firebaseio.com/" + LoginName.text + " " + LoginApellido.text + ".json").Then(onResolved: response =>
+
+        {
+            user = response;
+
+        });
+    }
+}
