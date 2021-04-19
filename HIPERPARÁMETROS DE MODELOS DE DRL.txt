@@ -1,0 +1,148 @@
+
+Exposito(2018):
+    trainer: ppo
+    batch_size: 32
+    beta: 1.0e-2
+    buffer_size: 2048
+    epsilon: 0.1
+    hidden_units: 1024
+    lambd: 0.95
+    learning_rate: 5.0e-4
+    max_steps: 1.0e6
+    normalize: true
+    num_epoch: 3
+    num_layers: 3
+    time_horizon: 64
+    summary_freq: 10000
+    reward_signals:
+        extrinsic:
+            strength: 1.0
+            gamma: 0.7
+
+
+
+Adamson(2018):
+    trainer: ppo
+    batch_size: 1024
+    beta: 5.0e-3
+    buffer_size: 10240
+    epsilon: 0.2
+    hidden_units: 128
+    lambd: 0.95
+    learning_rate: 3.0e-4
+    max_steps: 27.0e4
+    normalize: true
+    num_epoch: 3
+    num_layers: 2
+    time_horizon: 64
+    summary_freq: 10000
+    reward_signals:
+        extrinsic:
+            strength: 1.0
+            gamma: 0.99
+
+
+
+Ropilo(2019):
+    trainer: ppo
+    batch_size: 128
+    beta: 1.0e-1
+    buffer_size: 2048
+    epsilon: 0.2
+    hidden_units: 512
+    lambd: 0.95
+    learning_rate: 3.0e-4
+    max_steps: 5.0e5
+    normalize: true
+    num_epoch: 3
+    num_layers: 2
+    time_horizon: 64
+    summary_freq: 10000
+    reward_signals:
+        extrinsic:
+            strength: 1.0
+            gamma: 0.99
+
+
+Propuesta1:
+    trainer: ppo
+    batch_size: 32
+    beta: 0.005
+    buffer_size: 2048
+    epsilon: 0.1
+    hidden_units: 128
+    lambd: 0.95
+    learning_rate: 3.0e-4
+    max_steps: 2.0e5
+    normalize: true
+    num_epoch: 3
+    num_layers: 2
+    time_horizon: 64
+    summary_freq: 10000
+    reward_signals:
+        extrinsic:
+            strength: 1.0
+            gamma: 0.7
+
+
+Propuesta2:
+    trainer: ppo
+    batch_size: 128
+    beta: 5.0e-3
+    buffer_size: 2048
+    epsilon: 0.1
+    hidden_units: 128
+    lambd: 0.95
+    learning_rate: 3.0e-4
+    max_steps: 2.0e5
+    normalize: true
+    num_epoch: 3
+    num_layers: 2
+    time_horizon: 64
+    summary_freq: 10000
+    reward_signals:
+        extrinsic:
+            strength: 1.0
+            gamma: 0.7
+
+
+Propuesta3:
+    trainer: ppo
+    batch_size: 128
+    beta: 1.0e-2
+    buffer_size: 10240
+    epsilon: 0.2
+    hidden_units: 512
+    lambd: 0.95
+    learning_rate: 5.0e-4
+    max_steps: 25.0e4
+    normalize: true
+    num_epoch: 3
+    num_layers: 3
+    time_horizon: 64
+    summary_freq: 10000
+    reward_signals:
+        extrinsic:
+            strength: 1.0
+            gamma: 0.99
+
+
+Propuesta4:
+    trainer: ppo
+    batch_size: 1024
+    beta: 1.0e-1
+    buffer_size: 10240
+    epsilon: 0.2
+    hidden_units: 1024
+    lambd: 0.95
+    learning_rate: 5.0e-4
+    max_steps: 25.0e4
+    normalize: true
+    num_epoch: 3
+    num_layers: 3
+    time_horizon: 64
+    summary_freq: 10000
+    reward_signals:
+        extrinsic:
+            strength: 1.0
+            gamma: 0.99
